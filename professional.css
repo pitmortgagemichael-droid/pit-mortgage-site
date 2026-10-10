@@ -311,3 +311,25 @@ dialog #quick-description { font-size:.9rem; color:var(--muted); }
 }
 /* belt and braces: nothing should be able to widen the document again */
 html,body{max-width:100%;overflow-x:clip}
+
+/* ───────── Tap targets ─────────
+   The advisor CTA was 17px tall and the footer links 20px, well under the
+   44px that thumbs actually hit. On a page being paid for with ad traffic,
+   a CTA that needs a precise tap is a CTA that gets missed. */
+.advisor-panel a{
+  display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;
+  border:1px solid var(--line);border-radius:999px;background:var(--surface);
+  font-weight:700;text-decoration:none;transition:border-color .2s,background .2s;
+}
+.advisor-panel a:hover{border-color:var(--gold);background:var(--gold-soft)}
+.footer-socials{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.footer-socials a{
+  display:inline-flex!important;align-items:center;justify-content:center;
+  min-width:44px;min-height:44px;padding:0 10px;border-radius:10px;
+  text-decoration:none;transition:background .2s;
+}
+.footer-socials a:hover{background:var(--surface-2)}
+/* the dock's secondary action was 37x20 — a thumb misses that */
+.dock-calc{display:inline-flex;align-items:center;min-height:44px;padding:0 12px;border-radius:10px;
+  text-decoration:none;white-space:nowrap;transition:background .2s}
+.dock-calc:hover{background:var(--surface-2)}
