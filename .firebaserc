@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "pit-agent-calculator"
+  },
+  "targets": {
+    "pit-agent-calculator": {
+      "hosting": {
+        "site": [
+          "fuerdai-mortgage"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

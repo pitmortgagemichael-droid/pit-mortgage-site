@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pitmortgagemichael-droid.github.io/pit-mortgage-site/sitemap.xml
+Sitemap: https://fuerdai-mortgage.web.app/sitemap.xml
