@@ -74,6 +74,16 @@
     }
     return out;
   }
+  function yrSuffix() {
+    var l = 'zh';
+    try { l = localStorage.getItem('pms.lang') || 'zh'; } catch (e) {}
+    return l === 'en' ? 'y' : l === 'ms' ? 'th' : '年';
+  }
+  function approx() {
+    var l = 'zh';
+    try { l = localStorage.getItem('pms.lang') || 'zh'; } catch (e) {}
+    return l === 'en' ? 'approx. ' : l === 'ms' ? 'lebih kurang ' : '约 ';
+  }
   function money(v) {
     if (v >= 1e6) return 'RM ' + (v / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M';
     if (v >= 1e3) return 'RM ' + Math.round(v / 1e3) + 'k';
@@ -102,7 +112,7 @@
     // x labels
     var step = Y <= 10 ? 2 : Y <= 20 ? 5 : 5;
     for (var t = 0; t <= Y; t += step) {
-      parts.push('<text x="' + x(t) + '" y="' + (H - B + 20) + '" text-anchor="middle" font-size="11" fill="var(--muted)">' + t + '年</text>');
+      parts.push('<text x="' + x(t) + '" y="' + (H - B + 20) + '" text-anchor="middle" font-size="11" fill="var(--muted)">' + t + yrSuffix() + '</text>');
     }
     // the gap MLTA covers once the balance has fallen away
     var gap = ['M ' + x(0) + ' ' + y(P)];
@@ -128,13 +138,17 @@
     var diff = P - bal[mid];
     $('prot-readout').innerHTML =
       '<div class="pr-row"><span>第 ' + mid + ' 年的房贷余额</span><b>' + money(bal[mid]) + '</b></div>' +
-      '<div class="pr-row"><span>当年 MRTA 的保额（贴着余额）</span><b>约 ' + money(bal[mid]) + '</b></div>' +
+      '<div class="pr-row"><span>当年 MRTA 的保额（贴着余额）</span><b>' + approx() + money(bal[mid]) + '</b></div>' +
       '<div class="pr-row"><span>当年 MLTA 的保额（维持水平）</span><b>' + money(P) + '</b></div>' +
       '<div class="pr-row pr-gap"><span>两者差额 — MLTA 多出来的保障</span><b>' + money(diff) + '</b></div>';
+    if (window.applyI18n) window.applyI18n();
   }
 
   ['prot-loan', 'prot-years', 'prot-rate'].forEach(function (id) {
     var el = $(id); if (el) el.addEventListener('input', draw);
   });
+  // the readout is built in JS and glues a prefix onto a changing number, so a
+  // language switch has to rebuild it rather than swap text
+  window.__protRedraw = draw;
   draw();
 })();

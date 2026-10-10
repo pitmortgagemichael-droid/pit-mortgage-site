@@ -427,6 +427,11 @@ button:disabled { opacity:.5; cursor:not-allowed; }
       <a href="#protection" onclick="showHome('#protection');return false;">MRTA / MLTA</a>
       <a href="#trust" onclick="showHome('#trust');return false;">认识 Michael</a>
     </nav>
+    <div class="lang-switch" role="group" aria-label="Language / 语言">
+      <button class="lang-btn is-on" type="button" data-lang="zh" onclick="setLang('zh')">中文</button>
+      <button class="lang-btn" type="button" data-lang="en" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" type="button" data-lang="ms" onclick="setLang('ms')">BM</button>
+    </div>
     <button class="nav-cta" type="button" data-lead="还不确定，想先了解一下">留下联系方式 ↗</button>
   </div>
 </header>
@@ -1011,6 +1016,7 @@ button:disabled { opacity:.5; cursor:not-allowed; }
 <p class="calc-note">暂时不需要身份证、收入或银行文件。</p>
 </form></dialog>
 
+<script src="i18n.js"></script>
 <script src="comparison.js"></script>
 <script src="cases.js"></script>
 <script src="contact.js"></script>

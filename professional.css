@@ -247,3 +247,14 @@ dialog #quick-description { font-size:.9rem; color:var(--muted); }
 .legal-close-form { float:right; margin:-8px -8px 0 0; }
 .legal-close { border:0; background:var(--surface-2); width:32px; height:32px; border-radius:50%;
   cursor:pointer; color:var(--muted); font-size:14px; }
+
+/* ───────── 语言切换 Language switch ───────── */
+.lang-switch { display:inline-flex; gap:2px; padding:3px; background:var(--surface-2);
+  border:1px solid var(--line); border-radius:999px; margin-right:12px; }
+.lang-btn { border:0; background:transparent; cursor:pointer; border-radius:999px;
+  padding:6px 11px; font-size:.78rem; font-weight:700; color:var(--muted);
+  transition:background .18s, color .18s; white-space:nowrap; }
+.lang-btn:hover { color:var(--paper); }
+.lang-btn.is-on { background:var(--paper); color:#fff; }
+@media (max-width:860px) { .lang-switch { margin-right:8px; padding:2px; }
+  .lang-btn { padding:5px 9px; font-size:.72rem; } }
