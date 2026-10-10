@@ -406,11 +406,11 @@ button:disabled { opacity:.5; cursor:not-allowed; }
 @media(max-width:640px) { .compare-grid { grid-template-columns:1fr; } .nav-inner { padding:12px; gap:8px; } .wordmark { font-size:.9rem; } .wordmark span { display:none; } .compare-option { padding:18px; } }
 </style>
 <link rel="stylesheet" href="professional.css">
-<link rel="icon" href="assets/original-1.png">
+<link rel="icon" href="assets/fuerdai-logo.jpeg">
 <link rel="canonical" href="https://pitmortgagemichael-droid.github.io/pit-mortgage-site/">
 <meta property="og:title" content="Michael Liang · PIT Mortgage | 房贷与保障，一起看清楚">
 <meta property="og:description" content="比较贷款月供与总利息，了解 MRTA 与 MLTA，再与 Michael 讨论你的情况。">
-<meta property="og:image" content="https://pitmortgagemichael-droid.github.io/pit-mortgage-site/assets/original-2.jpg">
+<meta property="og:image" content="https://pitmortgagemichael-droid.github.io/pit-mortgage-site/assets/fuerdai-logo.jpeg">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://pitmortgagemichael-droid.github.io/pit-mortgage-site/">
 </head>
@@ -420,12 +420,12 @@ button:disabled { opacity:.5; cursor:not-allowed; }
 
 <header class="nav">
   <div class="nav-inner">
-    <div class="wordmark"><img class="mark-logo" src="assets/original-1.png" alt="富二贷 PIT Mortgage logo">PIT Mortgage <span style="color:var(--muted); font-weight:400; font-size:0.85rem;">· 富二贷</span></div>
+    <div class="wordmark"><img class="mark-logo" src="assets/fuerdai-logo.jpeg" alt="富二贷 PIT Mortgage logo">PIT Mortgage <span style="color:var(--muted); font-weight:400; font-size:0.85rem;">· 富二贷</span></div>
     <nav class="links" aria-label="主要导航">
-      <a href="#services" onclick="showHome('#services')">服务</a>
-      <a href="#compare" onclick="showHome('#compare')">贷款计算</a>
-      <a href="#protection" onclick="showHome('#protection')">MRTA / MLTA</a>
-      <a href="#trust" onclick="showHome('#trust')">认识 Michael</a>
+      <a href="#services" onclick="showHome('#services');return false;">服务</a>
+      <a href="#compare" onclick="showHome('#compare');return false;">贷款计算</a>
+      <a href="#protection" onclick="showHome('#protection');return false;">MRTA / MLTA</a>
+      <a href="#trust" onclick="showHome('#trust');return false;">认识 Michael</a>
     </nav>
     <button class="nav-cta" type="button" data-lead="还不确定，想先了解一下">留下联系方式 ↗</button>
   </div>
@@ -461,12 +461,15 @@ button:disabled { opacity:.5; cursor:not-allowed; }
         <span><span class="dot-gold"></span>WhatsApp 全程可追踪</span>
       </div>
     </div>
-    <div class="portrait-card">
-      <div class="portrait-corner">你的咨询，从这里开始</div>
-      <img src="assets/original-2.jpg" alt="Michael Liang, Mortgage Advisor at PIT Mortgage" loading="eager">
-      <div class="portrait-tag">
-        <div class="name serif">Michael Liang</div>
-        <div class="role">房贷与保险顾问 · PIT Mortgage</div>
+    <div class="brand-stage" aria-label="富二贷品牌与顾问 Michael Liang">
+      <div class="brand-panel">
+        <p class="brand-kicker">富二贷 · FU ER DAI</p>
+        <img class="hero-brand-logo" src="assets/fuerdai-logo.jpeg" alt="富二贷 Finance Expert：黑色圆形、白橙色房屋标志" width="500" height="500" fetchpriority="high">
+        <div class="brand-signature"><strong>房贷规划 · 保障比较</strong><span>Mortgage &amp; Protection Advisory</span></div>
+      </div>
+      <div class="advisor-panel">
+        <img src="assets/original-2.jpg" alt="Michael Liang，富二贷房贷与保险顾问" width="400" height="500">
+        <div><p class="eyebrow">YOUR ADVISOR · 你的顾问</p><h2>Michael Liang</h2><p>富二贷 · PIT Mortgage</p><a href="#contact" data-lead="还不确定，想先了解一下">和 Michael 聊聊 ↗</a></div>
       </div>
     </div>
   </div>
@@ -478,7 +481,19 @@ button:disabled { opacity:.5; cursor:not-allowed; }
 <a href="#contact" data-lead="还不确定，想先了解一下"><span>03 / 聊聊情况</span><strong>让 Michael 帮你理清方向 <i>↗</i></strong></a>
 </div></section>
 
-<section class="block" id="compare">
+<nav class="tabbar" id="tabbar" aria-label="内容分页">
+  <div class="wrap tabbar-inner" role="tablist">
+    <button class="tab-btn is-active" role="tab" aria-selected="true"  data-tab="compare">贷款计算</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="protection">MRTA / MLTA</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="services">服务项目</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="trust">认识 Michael</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="faq">常见问题</button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="contact">联系我</button>
+  </div>
+</nav>
+
+
+<section class="block" id="compare" data-tab-panel="compare">
 <div class="wrap">
 <div class="block-head"><p class="eyebrow">Loan comparison · 贷款比较</p><h2 class="block-title">月供少一点，<br>总利息也会少吗？</h2><p class="block-sub">用同一贷款金额，试着调整利率与年限。一起看每月负担和整段贷款的成本。</p></div>
 <div class="compare-shell">
@@ -488,14 +503,43 @@ button:disabled { opacity:.5; cursor:not-allowed; }
 <div class="compare-actions"><button type="button" class="btn btn-primary" id="compare-share">把比较结果带到咨询表 →</button><a class="btn btn-secondary" href="#services">了解服务</a></div><p class="calc-note">输入仅在当前页面计算，不会自动发送。结果为估算，不代表可贷额度或批准。</p>
 </div></div></section>
 
-<section class="block protection" id="protection">
+<section class="block protection" id="protection" data-tab-panel="protection">
 <div class="wrap">
 <div class="section-heading"><div><p class="eyebrow">02 / MORTGAGE PROTECTION</p><h2 class="block-title">MRTA 与 MLTA，<br>先看懂，再选择。</h2></div><p class="block-sub">同样是房贷保障，保额变化和具体条款可以很不一样。把报价放在一起，比较才有意义。</p></div>
-<div class="protection-intro">
-<article><span class="protection-code">MRTA</span><h3>保额逐步递减</h3><p>Mortgage Reducing Term Assurance</p><svg viewBox="0 0 340 100" role="img" aria-label="示意：MRTA 保额随时间递减，不代表实际保单数值"><path d="M10 85H330" stroke="#bac4cc" fill="none"/><path d="M10 15 C130 20 235 48 330 85" stroke="#ae603a" stroke-width="4" fill="none"/><text x="10" y="99" font-size="11" fill="#586777">开始</text><text x="303" y="99" font-size="11" fill="#586777">期末</text></svg><p>通常按保单的递减保额表提供保障，不保证每个时间点都刚好等于实际贷款余额。</p></article>
-<article><span class="protection-code">MLTA</span><h3>保额保持水平</h3><p>Mortgage Level Term Assurance</p><svg viewBox="0 0 340 100" role="img" aria-label="示意：MLTA 保额在约定保障期内维持水平，不代表实际保单数值"><path d="M10 85H330" stroke="#bac4cc" fill="none"/><path d="M10 15H330" stroke="#24485b" stroke-width="4" fill="none"/><text x="10" y="99" font-size="11" fill="#586777">开始</text><text x="303" y="99" font-size="11" fill="#586777">期末</text></svg><p>通常在约定保障期内维持水平保额；保障范围、期限及赔付条件仍须看具体保单。</p></article>
+<div class="prot-viz">
+  <div class="prot-controls">
+    <div class="calc-field"><label for="prot-loan">贷款金额 Loan (RM)</label>
+      <input id="prot-loan" type="number" min="10000" max="100000000" step="any" value="500000"></div>
+    <div class="calc-field"><label for="prot-years">贷款年限 Tenure (years)</label>
+      <input id="prot-years" type="number" min="1" max="40" step="1" value="30"></div>
+    <div class="calc-field"><label for="prot-rate">年利率 Rate (% p.a.)</label>
+      <input id="prot-rate" type="number" min="0" max="20" step="any" value="4.1"></div>
+  </div>
+
+  <figure class="prot-chart-figure">
+    <svg id="prot-chart" viewBox="0 0 720 340" role="img"
+         aria-label="示意图：房贷余额、MRTA 递减保额与 MLTA 水平保额随年份的变化比较"></svg>
+    <figcaption class="prot-legend">
+      <span class="lg lg-mrta"><i></i>MRTA 保额 ≈ 房贷余额</span>
+      <span class="lg lg-mlta"><i></i>MLTA 水平保额</span>
+      <span class="lg lg-gap"><i></i>差额 — MLTA 多出的保障</span>
+    </figcaption>
+  </figure>
+
+  <div class="prot-readout" id="prot-readout" aria-live="polite"></div>
 </div>
-<p class="calc-note">曲线仅示意保额走势，不是报价、现金价值或赔款预测。</p>
+
+<div class="protection-intro">
+<article><span class="protection-code">MRTA</span><h3>保额逐步递减</h3><p class="prot-en">Mortgage Reducing Term Assurance</p>
+<p>保额按保单的递减表逐年下降，设计上贴着贷款余额走。不保证每个时间点都刚好等于当时的实际余额。</p>
+<ul class="prot-points"><li>常见一次性保费，可融入贷款</li><li>保额随时间下降</li><li>贷款还清后保障通常结束</li></ul></article>
+
+<article><span class="protection-code">MLTA</span><h3>保额保持水平</h3><p class="prot-en">Mortgage Level Term Assurance</p>
+<p>在约定保障期内维持同一个保额。贷款余额下降后，保额与余额之间的差额仍在保障范围内。</p>
+<ul class="prot-points"><li>可能一次性或分期缴费，看产品</li><li>保额在保障期内不变</li><li>部分产品有现金价值，须核对条款</li></ul></article>
+</div>
+
+<p class="calc-note">图表为教育用途的示意计算，依你输入的数字推算，不是任何保单的报价、现金价值或赔款预测。实际保额表、保费与条款以保险公司的产品披露文件为准。</p>
 <div class="comparison-table-wrap" role="region" aria-label="MRTA 与 MLTA 条款比较" tabindex="0">
 <table class="protection-table"><caption>比较保单时，重点看这六项</caption><thead><tr><th scope="col">比较重点</th><th scope="col">MRTA</th><th scope="col">MLTA</th></tr></thead><tbody>
 <tr><th scope="row">保障金额</th><td>按约定时间表递减。</td><td>通常在约定期内保持水平。</td></tr>
@@ -512,7 +556,7 @@ button:disabled { opacity:.5; cursor:not-allowed; }
 
 <section class="block" id="real-cases" hidden><div class="wrap"><p class="eyebrow">真实案例 · Case stories</p><h2 class="block-title">每个情况，都有自己的考量。</h2><div id="case-list" class="svc-grid"></div></div></section>
 
-<section class="block" id="services">
+<section class="block" id="services" data-tab-panel="services">
   <div class="wrap">
     <div class="block-head reveal">
       <p class="eyebrow">服务项目 Services</p>
@@ -549,6 +593,24 @@ button:disabled { opacity:.5; cursor:not-allowed; }
         <a class="svc-ask" href="javascript:void(0)" onclick="showServicePage('svc-lppsa')">问问看 →</a>
       </div>
 
+      <div class="svc-card stagger-item">
+        <div class="svc-icon">估</div>
+        <h3>房产估价协助</h3>
+        <div class="svc-en">Property Valuation Assist</div>
+        <p>想知道手上的房子现在大概值多少？我帮你安排估价、看懂估价报告，再对照贷款额度来规划下一步。</p>
+        <div class="svc-who">适合：准备转贷、套现或卖房的人</div>
+        <a class="svc-ask" href="javascript:void(0)" data-lead="房产估价协助">问问看 →</a>
+      </div>
+
+      <div class="svc-card stagger-item">
+        <div class="svc-icon">伴</div>
+        <h3>律师 / 室内设计转介</h3>
+        <div class="svc-en">Lawyer &amp; Interior Referral</div>
+        <p>买卖房子要找律师处理合约，拿了钥匙要找设计师装修。我可以依你的情况给建议，介绍合作过的专业人士。</p>
+        <div class="svc-who">适合：需要律师或装修设计的人</div>
+        <a class="svc-ask" href="javascript:void(0)" data-lead="律师 / 室内设计转介">问问看 →</a>
+      </div>
+
       <div class="svc-card stagger-item" style="background:var(--surface-2);">
         <div class="svc-icon">+</div>
         <h3>加入我们</h3>
@@ -583,7 +645,7 @@ button:disabled { opacity:.5; cursor:not-allowed; }
   </div>
 </section>
 
-<section class="trust" id="trust">
+<section class="trust" id="trust" data-tab-panel="trust">
   <div class="wrap block">
     <div class="trust-grid reveal">
       <div>
@@ -616,7 +678,7 @@ button:disabled { opacity:.5; cursor:not-allowed; }
   </div>
 </section>
 
-<section class="block" id="content">
+<section class="block" id="content" data-tab-panel="trust">
   <div class="wrap">
     <div class="block-head reveal">
       <p class="eyebrow">内容分享 Content</p>
@@ -646,19 +708,32 @@ button:disabled { opacity:.5; cursor:not-allowed; }
   </div>
 </section>
 
-<section class="block faq" id="faq"><div class="wrap faq-layout"><div><p class="eyebrow">BEFORE WE TALK</p><h2 class="block-title">你可能想先问。</h2><p class="block-sub">先了解流程，再决定下一步。</p></div><div>
+<section class="block faq" id="faq" data-tab-panel="faq"><div class="wrap faq-layout"><div><p class="eyebrow">BEFORE WE TALK</p><h2 class="block-title">你可能想先问。</h2><p class="block-sub">先了解流程，再决定下一步。</p></div><div>
 <details><summary>还没选好房子，可以先咨询吗？</summary><p>可以先聊预算、预期月供和准备方向。计算器只是估算；实际可贷额度需要结合文件和银行审核。</p></details>
 <details><summary>现在需要上传身份证或银行月结单吗？</summary><p>不需要。初步咨询只需称呼、联系方式和想了解的项目。需要进一步评估时，再与 Michael 确认文件清单及提交方式。</p></details>
 <details><summary>较低月供，就代表贷款更便宜吗？</summary><p>不一定。延长年限可能降低月供但增加总利息；转贷还需计算前期费用与原贷款的相关成本。</p></details>
 <details><summary>填完表格后，Michael 就会收到吗？</summary><p>你还需要在打开的 WhatsApp 内按发送。本站不会自动保存或提交表格内容，也不会自动发送消息。</p></details>
 </div></div></section>
-<section class="block contact" id="contact">
+<section class="block contact" id="contact" data-tab-panel="contact">
   <div class="wrap contact-inner reveal">
     <p class="eyebrow">联系我 Contact</p>
     <h2 class="block-title">有个方向了？我们聊聊。</h2>
     <p class="block-sub">填好以下资料，按下按钮会打开WhatsApp，把你的资料整理好发给我 — 我看到会尽快回复你。</p>
 
-    <a class="btn btn-primary" href="https://wa.me/60174648113?text=Hi%20Michael%2C%20我想了解房贷方案" target="_blank" rel="noopener">直接打开 WhatsApp →</a>
+    <div class="contact-ways">
+      <a class="contact-way wa" href="https://wa.me/60174648113?text=Hi%20Michael%2C%20我想了解房贷方案" target="_blank" rel="noopener">
+        <span class="cw-ico" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.67c2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.22 8.22 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24Zm4.52 9.84c-.25-.12-1.46-.72-1.69-.8-.22-.09-.39-.13-.55.12s-.63.8-.77.96c-.14.17-.28.19-.53.06-.25-.12-1.04-.38-1.99-1.22-.73-.66-1.23-1.46-1.37-1.71-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.43h-.47c-.16 0-.43.06-.65.31-.22.25-.85.84-.85 2.03 0 1.2.87 2.35.99 2.51.12.17 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.46-.6 1.66-1.17.21-.58.21-1.07.14-1.17-.06-.11-.22-.17-.47-.29Z"/></svg>
+        </span>
+        <span class="cw-txt"><b>WhatsApp</b><span>最快回复 · 017-464 8113</span></span>
+      </a>
+      <a class="contact-way em" href="mailto:pit.mortgage.michael@gmail.com?subject=房贷咨询%20Mortgage%20Enquiry">
+        <span class="cw-ico" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"/><path d="m3 7 9 6 9-6"/></svg>
+        </span>
+        <span class="cw-txt"><b>电邮 Email</b><span>pit.mortgage.michael@gmail.com</span></span>
+      </a>
+    </div>
     <form class="composer" id="lead-form">
       <div class="composer-row">
         <div>
@@ -710,7 +785,7 @@ button:disabled { opacity:.5; cursor:not-allowed; }
 
 <footer class="site">
   <div class="wrap footer-inner">
-    <div style="display:flex; align-items:center; gap:10px;"><img src="assets/original-1.png" alt="富二贷 logo" style="width:28px; height:28px; border-radius:50%;">© PIT Mortgage Advisory Sdn Bhd</div>
+    <div style="display:flex; align-items:center; gap:10px;"><img src="assets/fuerdai-logo.jpeg" alt="富二贷 logo" style="width:28px; height:28px; border-radius:50%;">© PIT Mortgage Advisory Sdn Bhd</div>
     <div class="footer-socials">
       <a href="https://www.instagram.com/fuerdai_mortgage/" target="_blank" rel="noopener" aria-label="Instagram" style="display:inline-flex;">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
@@ -723,9 +798,26 @@ button:disabled { opacity:.5; cursor:not-allowed; }
       </a>
       <a href="javascript:void(0)" onclick="showHome('#contact')">联系我</a>
       <a href="mailto:pit.mortgage.michael@gmail.com">Email</a>
+      <a href="javascript:void(0)" onclick="openLegal('privacy')">隐私政策</a>
+      <a href="javascript:void(0)" onclick="openLegal('terms')">使用条款</a>
     </div>
   </div>
+
+  <div class="wrap legal-strip">
+    <div class="legal-box">
+      <p class="legal-title">PIT Mortgage Advisory Sdn Bhd</p>
+      <p id="legal-address" class="legal-line" data-needs-fill="1">公司注册号与营业地址：<em>待填写 — 投放广告前必须补上</em></p>
+      <p class="legal-line">电邮 <a href="mailto:pit.mortgage.michael@gmail.com">pit.mortgage.michael@gmail.com</a> · WhatsApp <a href="https://wa.me/60174648113" target="_blank" rel="noopener">017-464 8113</a></p>
+    </div>
+    <p class="legal-disc">本网站提供一般资讯与估算工具，并非贷款批准、利率承诺或投资建议。所有贷款与保险的条款、利率、费用及批准结果，以各银行与保险公司的正式文件为准。我们不收取任何前期费用。</p>
+  </div>
 </footer>
+
+<dialog id="legal-dialog" aria-labelledby="legal-h">
+  <form method="dialog" class="legal-close-form"><button class="legal-close" aria-label="关闭">✕</button></form>
+  <h2 id="legal-h"></h2>
+  <div id="legal-body"></div>
+</dialog>
 </main>
 
 <div id="page-svc-loan" class="svc-page" style="display:none">

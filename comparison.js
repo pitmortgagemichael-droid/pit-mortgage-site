@@ -52,3 +52,89 @@
   });
   update();
 })(typeof window === 'undefined' ? globalThis : window);
+
+/* ─────────────────────────────────────────────────────────────
+   MRTA vs MLTA — 示意图
+   把三条线画在同一组坐标上：房贷余额、MRTA 递减保额、MLTA 水平保额。
+   两张分开的小图看不出重点；重点是「余额下降后，两者之间差多少」。
+   纯教育示意，不是任何保单报价。
+   ───────────────────────────────────────────────────────────── */
+(function () {
+  var svg = document.getElementById('prot-chart');
+  if (!svg) return;
+  var $ = function (id) { return document.getElementById(id); };
+  var W = 720, H = 340, L = 64, R = 18, T = 20, B = 44;
+
+  function balances(principal, annualPct, years) {
+    var n = years * 12, r = annualPct / 100 / 12, out = [], bal = principal;
+    var pay = r ? principal * r / (1 - Math.pow(1 + r, -n)) : principal / n;
+    for (var m = 0; m <= n; m++) {
+      if (m % 12 === 0) out.push(Math.max(0, bal));
+      bal = r ? bal * (1 + r) - pay : bal - pay;
+    }
+    return out;
+  }
+  function money(v) {
+    if (v >= 1e6) return 'RM ' + (v / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M';
+    if (v >= 1e3) return 'RM ' + Math.round(v / 1e3) + 'k';
+    return 'RM ' + Math.round(v);
+  }
+
+  function draw() {
+    var P = Math.max(0, parseFloat($('prot-loan').value) || 0);
+    var Y = Math.min(40, Math.max(1, parseInt($('prot-years').value, 10) || 30));
+    var rate = Math.max(0, parseFloat($('prot-rate').value) || 0);
+    if (!P) { svg.innerHTML = ''; $('prot-readout').textContent = ''; return; }
+
+    var bal = balances(P, rate, Y);
+    var raw = P * 1.08, mag = Math.pow(10, Math.floor(Math.log(raw) / Math.LN10));
+    var maxY = Math.ceil(raw / (mag / 2)) * (mag / 2);   // a round number at the top of the axis
+    var x = function (i) { return L + (i / Y) * (W - L - R); };
+    var y = function (v) { return T + (1 - v / maxY) * (H - T - B); };
+
+    var parts = [];
+    // grid + y labels
+    for (var g = 0; g <= 4; g++) {
+      var v = maxY * g / 4, yy = y(v);
+      parts.push('<line x1="' + L + '" y1="' + yy + '" x2="' + (W - R) + '" y2="' + yy + '" stroke="var(--line)" stroke-width="1"/>');
+      parts.push('<text x="' + (L - 9) + '" y="' + (yy + 4) + '" text-anchor="end" font-size="11" fill="var(--muted)">' + money(v) + '</text>');
+    }
+    // x labels
+    var step = Y <= 10 ? 2 : Y <= 20 ? 5 : 5;
+    for (var t = 0; t <= Y; t += step) {
+      parts.push('<text x="' + x(t) + '" y="' + (H - B + 20) + '" text-anchor="middle" font-size="11" fill="var(--muted)">' + t + '年</text>');
+    }
+    // the gap MLTA covers once the balance has fallen away
+    var gap = ['M ' + x(0) + ' ' + y(P)];
+    for (var i = 0; i <= Y; i++) gap.push('L ' + x(i) + ' ' + y(bal[i]));
+    gap.push('L ' + x(Y) + ' ' + y(P) + ' Z');
+    parts.push('<path d="' + gap.join(' ') + '" fill="var(--gold-soft)" opacity=".85"/>');
+
+    var line = function (pts, stroke, width, dash) {
+      return '<path d="' + pts + '" fill="none" stroke="' + stroke + '" stroke-width="' + width +
+        '" stroke-linecap="round" stroke-linejoin="round"' + (dash ? ' stroke-dasharray="' + dash + '"' : '') + '/>';
+    };
+    var balPts = bal.map(function (v, i) { return (i ? 'L ' : 'M ') + x(i) + ' ' + y(v); }).join(' ');
+    parts.push(line('M ' + x(0) + ' ' + y(P) + ' L ' + x(Y) + ' ' + y(P), 'var(--paper)', 3.5));          // MLTA level
+    parts.push(line(balPts, 'var(--gold-strong)', 3.5));                                                   // MRTA, tracking the balance
+    // axes
+    parts.push('<line x1="' + L + '" y1="' + y(0) + '" x2="' + (W - R) + '" y2="' + y(0) + '" stroke="var(--muted)" stroke-width="1.5"/>');
+
+    var mid = Math.round(Y / 2);
+    parts.push('<circle cx="' + x(mid) + '" cy="' + y(bal[mid]) + '" r="4.5" fill="var(--gold-strong)"/>');
+    parts.push('<circle cx="' + x(mid) + '" cy="' + y(P) + '" r="4.5" fill="var(--paper)"/>');
+    svg.innerHTML = parts.join('');
+
+    var diff = P - bal[mid];
+    $('prot-readout').innerHTML =
+      '<div class="pr-row"><span>第 ' + mid + ' 年的房贷余额</span><b>' + money(bal[mid]) + '</b></div>' +
+      '<div class="pr-row"><span>当年 MRTA 的保额（贴着余额）</span><b>约 ' + money(bal[mid]) + '</b></div>' +
+      '<div class="pr-row"><span>当年 MLTA 的保额（维持水平）</span><b>' + money(P) + '</b></div>' +
+      '<div class="pr-row pr-gap"><span>两者差额 — MLTA 多出来的保障</span><b>' + money(diff) + '</b></div>';
+  }
+
+  ['prot-loan', 'prot-years', 'prot-rate'].forEach(function (id) {
+    var el = $(id); if (el) el.addEventListener('input', draw);
+  });
+  draw();
+})();

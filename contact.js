@@ -43,3 +43,81 @@
     error.textContent = '请在 WhatsApp 内确认并发送，Michael 才会收到。若未打开，请检查浏览器是否拦截了新窗口。';
   });
 })();
+
+/* ─────────────────────────────────────────────────────────────
+   分页导航 — 把一页到底的长滚动拆成几个分页，手机上不用一直滑。
+   注意：Google Ads 的金融服务政策要求公司身份与地址「不需点击即可见」，
+   所以 footer 的法律资讯刻意放在分页之外，永远显示。
+   ───────────────────────────────────────────────────────────── */
+(function () {
+  var bar = document.getElementById('tabbar');
+  if (!bar) return;
+  var btns = [].slice.call(bar.querySelectorAll('.tab-btn'));
+  var panels = [].slice.call(document.querySelectorAll('[data-tab-panel]'));
+
+  function activate(name, scroll) {
+    if (!btns.some(function (b) { return b.dataset.tab === name; })) name = 'compare';
+    btns.forEach(function (b) {
+      var on = b.dataset.tab === name;
+      b.classList.toggle('is-active', on);
+      b.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    panels.forEach(function (p) { p.hidden = p.dataset.tabPanel !== name; });
+    try { history.replaceState(null, '', '#' + name); } catch (e) {}
+    if (scroll) {
+      var top = bar.getBoundingClientRect().top + window.pageYOffset - 70;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    }
+  }
+  bar.addEventListener('click', function (e) {
+    var b = e.target.closest('.tab-btn');
+    if (b) activate(b.dataset.tab, true);
+  });
+  // the header links and any in-page anchor should switch tabs, not jump
+  window.showHome = function (hash) {
+    var home = document.getElementById('page-home');
+    if (home) home.style.display = '';
+    ['svc-loan', 'svc-refinance', 'svc-lppsa', 'svc-mlta'].forEach(function (p) {
+      var el = document.getElementById('page-' + p);
+      if (el) el.style.display = 'none';
+    });
+    var name = (hash || '').replace('#', '');
+    if (name === 'content') name = 'trust';
+    activate(name || 'compare', true);
+  };
+  var initial = (location.hash || '').replace('#', '');
+  activate(initial === 'content' ? 'trust' : initial, false);
+})();
+
+/* 隐私政策与使用条款 — 马来西亚 PDPA 2010 要求收集个人资料前先给通知。
+   表单会收集姓名、电话、地区与收入，所以这份通知是必要的，不只是广告平台的要求。 */
+(function () {
+  var dlg = document.getElementById('legal-dialog');
+  if (!dlg) return;
+  var TXT = {
+    privacy: {
+      h: '隐私政策 Privacy Notice',
+      b: '<p>本通知依据马来西亚《2010年个人资料保护法令》(PDPA 2010) 提供。</p>' +
+         '<h3>我们收集什么</h3><p>当你填写咨询表单时，我们会收集你主动提供的：姓名、联络电话、电邮、所在地区、大约收入范围，以及你想咨询的项目与留言内容。</p>' +
+         '<h3>为什么收集</h3><p>仅用于回复你的咨询、评估适合的贷款或保障方案，以及在你同意下代你向银行或保险公司提交申请。</p>' +
+         '<h3>会给谁</h3><p>在处理你的申请所必要的范围内，可能提供给你所申请的银行、金融机构或保险公司。我们不会把你的资料出售或租予第三方作营销用途。</p>' +
+         '<h3>储存与安全</h3><p>资料保存在受密码保护的系统中，只有处理你个案的人员可以存取。保存期限为处理需要及法律要求的期间。</p>' +
+         '<h3>你的权利</h3><p>你可以随时要求查阅、更正或删除你的个人资料，或撤回同意。请电邮 <a href="mailto:pit.mortgage.michael@gmail.com">pit.mortgage.michael@gmail.com</a>。</p>' +
+         '<h3>本网站的工具</h3><p>页面上的计算器完全在你的浏览器内运算，输入的数字不会自动传送给我们，除非你按下发送按钮。</p>'
+    },
+    terms: {
+      h: '使用条款 Terms of Use',
+      b: '<h3>资讯性质</h3><p>本网站的内容、计算器与图表仅供一般参考与教育用途，不构成贷款批准、利率承诺、保险投保建议或任何投资建议。</p>' +
+         '<h3>估算的局限</h3><p>所有计算结果均依你输入的数字推算，采用标准摊还公式，不含银行的个别政策、手续费、保险成本或信用评估。实际可贷额度、利率与批准结果，完全由各银行与保险公司决定。</p>' +
+         '<h3>保险说明</h3><p>MRTA 与 MLTA 的图表为走势示意，不代表任何特定保单的保额表、现金价值或赔付金额。请以保险公司的产品披露文件 (PDS) 与保单条款为准。</p>' +
+         '<h3>费用</h3><p>我们不向客户收取任何前期咨询费用。</p>' +
+         '<h3>外部链接</h3><p>本站可能链接至银行或保险公司的公开资料页面，仅供查阅，不表示本站与该机构存在代理或合作关系。</p>'
+    }
+  };
+  window.openLegal = function (key) {
+    var t = TXT[key]; if (!t) return;
+    document.getElementById('legal-h').textContent = t.h;
+    document.getElementById('legal-body').innerHTML = t.b;
+    if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
+  };
+})();
