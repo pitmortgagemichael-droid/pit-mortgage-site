@@ -149,7 +149,7 @@
 "填好以下资料，按下按钮会打开WhatsApp，把你的资料整理好发给我 — 我看到会尽快回复你。":
  {en:"Fill this in and the button opens WhatsApp with your details tidied up and ready to send. I reply as soon as I see it.",
   ms:"Isi ini dan butang akan buka WhatsApp dengan maklumat anda tersusun dan sedia dihantar. Saya balas sebaik nampak."},
-"最快回复 · 017-464 8113":{en:"Fastest reply · 017-464 8113",ms:"Balasan terpantas · 017-464 8113"},
+"最快回复，直接对话":{en:"Fastest reply, straight to chat",ms:"Balasan terpantas, terus berbual"},
 "电邮 Email":{en:"Email",ms:"E-mel"},
 "姓名 Name":{en:"Name",ms:"Nama"},
 "联系电话 / WhatsApp":{en:"Phone / WhatsApp",ms:"Telefon / WhatsApp"},

@@ -730,7 +730,7 @@ button:disabled { opacity:.5; cursor:not-allowed; }
         <span class="cw-ico" aria-hidden="true">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 1.67c2.2 0 4.27.86 5.83 2.42a8.19 8.19 0 0 1 2.41 5.82c0 4.54-3.7 8.24-8.25 8.24a8.22 8.22 0 0 1-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.26-8.24Zm4.52 9.84c-.25-.12-1.46-.72-1.69-.8-.22-.09-.39-.13-.55.12s-.63.8-.77.96c-.14.17-.28.19-.53.06-.25-.12-1.04-.38-1.99-1.22-.73-.66-1.23-1.46-1.37-1.71-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.44-.06-.12-.55-1.34-.76-1.83-.2-.48-.4-.42-.55-.43h-.47c-.16 0-.43.06-.65.31-.22.25-.85.84-.85 2.03 0 1.2.87 2.35.99 2.51.12.17 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.46-.6 1.66-1.17.21-.58.21-1.07.14-1.17-.06-.11-.22-.17-.47-.29Z"/></svg>
         </span>
-        <span class="cw-txt"><b>WhatsApp</b><span>最快回复 · 017-464 8113</span></span>
+        <span class="cw-txt"><b>WhatsApp</b><span>最快回复，直接对话</span></span>
       </a>
       <a class="contact-way em" href="mailto:pit.mortgage.michael@gmail.com?subject=房贷咨询%20Mortgage%20Enquiry">
         <span class="cw-ico" aria-hidden="true">
@@ -812,7 +812,7 @@ button:disabled { opacity:.5; cursor:not-allowed; }
     <div class="legal-box">
       <p class="legal-title">PIT Mortgage Advisory Sdn Bhd</p>
       <p id="legal-address" class="legal-line" data-needs-fill="1">公司注册号与营业地址：<em>待填写 — 投放广告前必须补上</em></p>
-      <p class="legal-line">电邮 <a href="mailto:pit.mortgage.michael@gmail.com">pit.mortgage.michael@gmail.com</a> · WhatsApp <a href="https://wa.me/60174648113" target="_blank" rel="noopener">017-464 8113</a></p>
+      <p class="legal-line">电邮 <a href="mailto:pit.mortgage.michael@gmail.com">pit.mortgage.michael@gmail.com</a> · <a href="https://wa.me/60174648113" target="_blank" rel="noopener">WhatsApp</a></p>
     </div>
     <p class="legal-disc">本网站提供一般资讯与估算工具，并非贷款批准、利率承诺或投资建议。所有贷款与保险的条款、利率、费用及批准结果，以各银行与保险公司的正式文件为准。我们不收取任何前期费用。</p>
   </div>
@@ -996,6 +996,13 @@ button:disabled { opacity:.5; cursor:not-allowed; }
       var extra = msgBox.value.trim();
       if (extra) { lines.push('', '详细情况: ' + extra); }
       var text = lines.join('\n');
+      // record the lead before the hand-off, so one that never reaches
+      // WhatsApp is still captured rather than lost silently
+      if (window.saveLead) window.saveLead({
+        name: nameEl.value.trim(), phone: phoneEl.value.trim(),
+        area: areaEl.value.trim(), income: incomeEl.value.trim(),
+        service: svcSelect.value, message: msgBox.value.trim()
+      });
       window.open('https://wa.me/60174648113?text=' + encodeURIComponent(text), '_blank', 'noopener');
     });
   })();

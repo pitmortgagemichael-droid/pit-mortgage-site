@@ -39,6 +39,9 @@
     }
     error.textContent = '';
     const message = ['Hi Michael, 我想预约初步咨询。', '', '称呼：' + name.value.trim(), '联系电话：' + phone.value.trim(), '咨询项目：' + interest.value].join('\n');
+    if (window.saveLead) window.saveLead({
+      name: name.value.trim(), phone: phone.value.trim(), service: interest.value
+    });
     window.open('https://wa.me/60174648113?text=' + encodeURIComponent(message), '_blank', 'noopener');
     error.textContent = '请在 WhatsApp 内确认并发送，Michael 才会收到。若未打开，请检查浏览器是否拦截了新窗口。';
   });
@@ -121,3 +124,41 @@
     if (typeof dlg.showModal === 'function') dlg.showModal(); else dlg.setAttribute('open', '');
   };
 })();
+
+/* ─────────────────────────────────────────────────────────────
+   Google Form 收件箱 — 每一份咨询都存下来，不再只靠 WhatsApp。
+   原本的做法：表单只是拼出一段文字再打开 WhatsApp。客户若没按发送，
+   这条线索就永远消失，而且 Michael 完全不会知道它存在过。
+   现在：先静默写进 Google Form（即写进他的 Google Sheet 并触发邮件通知），
+   再照常打开 WhatsApp。两条路都走，哪一条断了都还有记录。
+
+   设定方法：把 FORM_ID 与每个栏位的 entry.xxx 填进去即可启用。
+   未填之前行为完全不变，不会有任何东西被破坏。
+   ───────────────────────────────────────────────────────────── */
+window.LEAD_SINK = {
+  FORM_ID: '',              // 例：1FAIpQLSd....  (来自 /forms/d/e/<FORM_ID>/viewform)
+  fields: {
+    name:    '',            // entry.xxxxxxxxx
+    phone:   '',
+    email:   '',
+    area:    '',
+    income:  '',
+    service: '',
+    message: ''
+  }
+};
+window.saveLead = function (data) {
+  var C = window.LEAD_SINK;
+  if (!C || !C.FORM_ID) return false;          // 未设定就安静跳过
+  try {
+    var body = new URLSearchParams();
+    Object.keys(C.fields).forEach(function (k) {
+      if (C.fields[k] && data[k] != null && data[k] !== '') body.append(C.fields[k], data[k]);
+    });
+    if (![].concat(body).length && !body.toString()) return false;
+    // no-cors：Google 不回传结果，所以这是「尽力送达」，绝不阻挡 WhatsApp 那一步
+    fetch('https://docs.google.com/forms/d/e/' + C.FORM_ID + '/formResponse',
+          { method: 'POST', mode: 'no-cors', body: body });
+    return true;
+  } catch (e) { return false; }
+};
