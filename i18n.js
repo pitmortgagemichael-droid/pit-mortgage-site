@@ -212,7 +212,7 @@
   }
   function apply(lang) {
     document.querySelectorAll(SCOPE).forEach(function (r) { walk(r, lang); });
-    document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : lang;
+    document.documentElement.lang = lang === 'zh' ? 'zh-Hans-MY' : (lang === 'ms' ? 'ms-MY' : 'en-MY');
     document.querySelectorAll('.lang-btn').forEach(function (b) {
       b.classList.toggle('is-on', b.dataset.lang === lang);
     });

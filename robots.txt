@@ -1,0 +1,5 @@
+# PIT Mortgage · 富二贷
+User-agent: *
+Allow: /
+
+Sitemap: https://pitmortgagemichael-droid.github.io/pit-mortgage-site/sitemap.xml
