@@ -671,13 +671,33 @@ button:disabled { opacity:.5; cursor:not-allowed; }
           </div>
         </div>
       </div>
-      <div class="team-card">
+      <div class="team-card build-card">
         <p class="label">办理流程 Process</p>
-        <div class="flow-row"><span class="flow-num serif">01</span><span class="flow-txt">咨询与评估 — 了解你的情况，理清需要哪个方案</span></div>
-        <div class="flow-row"><span class="flow-num serif">02</span><span class="flow-txt">方案规划 — 比较银行/贷款产品，确认最合适的选项</span></div>
-        <div class="flow-row"><span class="flow-num serif">03</span><span class="flow-txt">文件准备与系统提交 — 通过 Loan Connect 正式提交</span></div>
-        <div class="flow-row"><span class="flow-num serif">04</span><span class="flow-txt">审核跟进 — 全程跟进银行/机构审批进度</span></div>
-        <div class="flow-row"><span class="flow-num serif">05</span><span class="flow-txt">批准与完成 — 确认条款，完成签约</span></div>
+
+        <figure class="build" aria-hidden="true">
+          <svg viewBox="0 0 320 196" role="presentation">
+            <g class="b-ground"><path d="M14 176H306"/></g>
+            <g class="b-base"><path d="M62 176V150"/><path d="M258 176V150"/><path d="M62 160H258"/></g>
+            <g class="b-walls"><path d="M62 160V92"/><path d="M258 160V92"/></g>
+            <g class="b-roof"><path d="M48 98L160 30"/><path d="M160 30L272 98"/></g>
+            <g class="b-detail">
+              <path d="M136 176V128H184V176"/>
+              <rect x="86" y="112" width="34" height="28" rx="3"/>
+              <rect x="200" y="112" width="34" height="28" rx="3"/>
+            </g>
+            <g class="b-done">
+              <circle cx="160" cy="68" r="13"/>
+              <path d="M154 68l4.5 4.5L167 64"/>
+            </g>
+          </svg>
+          <figcaption class="build-cap"><span class="bc-zh">申请中</span><span class="bc-en">In progress</span></figcaption>
+        </figure>
+
+        <div class="flow-row" data-build="1"><span class="flow-num serif">01</span><span class="flow-txt">咨询与评估 — 了解你的情况，理清需要哪个方案</span></div>
+        <div class="flow-row" data-build="2"><span class="flow-num serif">02</span><span class="flow-txt">方案规划 — 比较银行/贷款产品，确认最合适的选项</span></div>
+        <div class="flow-row" data-build="3"><span class="flow-num serif">03</span><span class="flow-txt">文件准备与系统提交 — 通过 Loan Connect 正式提交</span></div>
+        <div class="flow-row" data-build="4"><span class="flow-num serif">04</span><span class="flow-txt">审核跟进 — 全程跟进银行/机构审批进度</span></div>
+        <div class="flow-row" data-build="5"><span class="flow-num serif">05</span><span class="flow-txt">批准与完成 — 确认条款，完成签约</span></div>
       </div>
     </div>
   </div>

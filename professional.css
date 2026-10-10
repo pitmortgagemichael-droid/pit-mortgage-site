@@ -258,3 +258,36 @@ dialog #quick-description { font-size:.9rem; color:var(--muted); }
 .lang-btn.is-on { background:var(--paper); color:#fff; }
 @media (max-width:860px) { .lang-switch { margin-right:8px; padding:2px; }
   .lang-btn { padding:5px 9px; font-size:.72rem; } }
+
+/* ───────── 办理流程：房子随着进度盖起来 ─────────
+   每一个流程步骤进入视线，房子就盖高一层 —— 从地基到交钥匙。
+   刻意用线条而不是金币或钞票：这是持牌顾问的网站，不是致富广告。 */
+.build{margin:4px 0 18px;padding:14px 10px 10px;border:1px solid var(--line);
+  border-radius:14px;background:var(--surface-2);position:relative;overflow:hidden}
+.build svg{width:100%;height:auto;display:block;overflow:visible}
+.build svg g{fill:none;stroke:var(--paper);stroke-width:3.4;
+  stroke-linecap:round;stroke-linejoin:round}
+.build svg .b-ground{stroke:var(--muted);stroke-width:2.4}
+.build svg .b-done{stroke:var(--gold-strong);stroke-width:3.2}
+.build svg path,.build svg rect,.build svg circle{
+  stroke-dasharray:var(--len,340);stroke-dashoffset:var(--len,340);
+  transition:stroke-dashoffset .85s cubic-bezier(.3,.8,.3,1)}
+.build[data-stage="0"] .b-ground path,
+.build[data-stage="1"] .b-ground path,.build[data-stage="1"] .b-base *,
+.build[data-stage="2"] .b-ground path,.build[data-stage="2"] .b-base *,.build[data-stage="2"] .b-walls *,
+.build[data-stage="3"] .b-ground path,.build[data-stage="3"] .b-base *,.build[data-stage="3"] .b-walls *,.build[data-stage="3"] .b-roof *,
+.build[data-stage="4"] .b-ground path,.build[data-stage="4"] .b-base *,.build[data-stage="4"] .b-walls *,.build[data-stage="4"] .b-roof *,.build[data-stage="4"] .b-detail *,
+.build[data-stage="5"] .b-ground path,.build[data-stage="5"] .b-base *,.build[data-stage="5"] .b-walls *,.build[data-stage="5"] .b-roof *,.build[data-stage="5"] .b-detail *,.build[data-stage="5"] .b-done *{
+  stroke-dashoffset:0}
+.build[data-stage="5"]{background:linear-gradient(180deg,var(--gold-soft),var(--surface-2))}
+.build-cap{display:flex;align-items:baseline;gap:8px;justify-content:center;margin-top:8px;
+  font-size:.74rem;font-weight:700;letter-spacing:.06em;color:var(--muted);
+  transition:color .5s ease}
+.build-cap .bc-en{font-size:.66rem;opacity:.72}
+.build[data-stage="5"] .build-cap{color:var(--gold-strong)}
+.flow-row{transition:opacity .45s ease,transform .45s ease}
+.flow-row.pending{opacity:.42}
+@media (prefers-reduced-motion:reduce){
+  .build svg path,.build svg rect,.build svg circle{transition:none;stroke-dashoffset:0}
+  .flow-row.pending{opacity:1}
+}

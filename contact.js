@@ -162,3 +162,67 @@ window.saveLead = function (data) {
     return true;
   } catch (e) { return false; }
 };
+
+/* ─────────────────────────────────────────────────────────────
+   办理流程的房子 — 每个步骤滚进视线，房子就盖高一层。
+   用线条画，不用金币或钞票：持牌顾问的网站不该长得像致富广告，
+   而且「钱从天上掉下来」这类画面在广告审核里本来就会被当成结果承诺。
+   ───────────────────────────────────────────────────────────── */
+(function () {
+  var fig = document.querySelector('.build');
+  if (!fig) return;
+  // measure each stroke so the draw-on reveals at its own natural length
+  fig.querySelectorAll('path, rect, circle').forEach(function (el) {
+    var len = 340;
+    try { if (el.getTotalLength) len = Math.ceil(el.getTotalLength()); } catch (e) {}
+    if (el.tagName === 'rect') len = (el.width.baseVal.value + el.height.baseVal.value) * 2;
+    if (el.tagName === 'circle') len = Math.ceil(2 * Math.PI * el.r.baseVal.value);
+    el.style.setProperty('--len', len);
+  });
+
+  var rows = [].slice.call(document.querySelectorAll('.flow-row[data-build]'));
+  var CAP = {
+    1: ['咨询与评估', 'Consultation'], 2: ['方案规划', 'Planning'],
+    3: ['文件提交', 'Submission'],     4: ['审核跟进', 'Under review'],
+    5: ['批准完成 · 交钥匙', 'Approved — keys in hand']
+  };
+  var stage = 0;
+  function setStage(n) {
+    if (n === stage) return;
+    stage = n;
+    fig.dataset.stage = n;
+    var c = CAP[n];
+    if (c) {
+      fig.querySelector('.bc-zh').textContent = c[0];
+      fig.querySelector('.bc-en').textContent = c[1];
+    }
+    rows.forEach(function (r) { r.classList.toggle('pending', +r.dataset.build > n); });
+  }
+  fig.dataset.stage = '0';
+  rows.forEach(function (r) { r.classList.add('pending'); });
+
+  /* Rows sit close enough together that on a phone all five are on screen at
+     once, so per-row intersection jumped straight to stage 4. Drive it from how
+     far the card has travelled through the viewport instead: the house rises as
+     you scroll, which is the effect, and it behaves the same at any height. */
+  var card = fig.closest('.team-card') || fig.parentElement;
+  var ticking = false;
+  function update() {
+    ticking = false;
+    var r = card.getBoundingClientRect(), vh = window.innerHeight || 800;
+    if (!r.height || r.bottom < 0 || r.top > vh) return;
+    var travelled = vh * 0.85 - r.top;
+    var span = r.height * 0.75 + vh * 0.2;
+    var p = Math.max(0, Math.min(1, travelled / span));
+    setStage(Math.max(0, Math.min(5, Math.ceil(p * 5))));
+  }
+  function onScroll() {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('.tab-btn')) setTimeout(update, 420);   // tab switch re-measures
+  });
+  update();
+})();
