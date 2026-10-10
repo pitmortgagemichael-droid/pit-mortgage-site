@@ -291,3 +291,23 @@ dialog #quick-description { font-size:.9rem; color:var(--muted); }
   .build svg path,.build svg rect,.build svg circle{transition:none;stroke-dashoffset:0}
   .flow-row.pending{opacity:1}
 }
+
+/* ───────── Mobile overflow fix ─────────
+   The header CTA was 135px wide at 390px and pushed the document to 439px.
+   Everything sized with calc(100% - x) then measured against that inflated
+   width, so the sticky dock overflowed too — one cause, two symptoms.
+   The dock already carries the same action on mobile, so the header one goes. */
+@media (max-width:720px){
+  .nav-cta{display:none}
+  nav.links{display:none}
+  .wordmark{font-size:.95rem}
+  .nav-inner{gap:10px}
+}
+@media (max-width:420px){
+  .wrap{padding:0 16px}
+  .contact-dock{width:calc(100vw - 20px);gap:10px;padding:9px 10px}
+  .contact-dock .btn{font-size:.75rem;padding:10px}
+  .build{padding:12px 8px 8px}
+}
+/* belt and braces: nothing should be able to widen the document again */
+html,body{max-width:100%;overflow-x:clip}
